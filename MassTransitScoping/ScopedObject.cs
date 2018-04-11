@@ -21,7 +21,7 @@ namespace MassTransitScoping
             if (_context == null)
                 throw new NullReferenceException(nameof(_context));
 
-            Log.Information($"CorrelationId: { _context.CorrelationId }");
+            Log.Information($"ScopedObject ConsumeContext CorrelationId: { _context.CorrelationId }");
 
             //  publish message to bus using _context here... 
 

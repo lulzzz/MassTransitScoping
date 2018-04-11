@@ -43,31 +43,13 @@ namespace MassTransitScoping
                 {
                     var scopeProvider = new DependencyInjectionConsumerScopeProvider(container);
 
-                    //e.Consumer(new ScopeConsumerFactory<DoSomeWorkConsumer>(scopeProvider), y =>
-                    //{
-                    //    //y.ConsumerMessage<DoSomeWork>(m => m.UseContextInjection(container));
-                    //    //y.UseContextInjection(container);
-                    //    y.Message<DoSomeWork>(m =>
-                    //    {
-                    //        //m.UseContextMessageInjection(container);
-                    //        m.UseFilter(new InjectContextMessageFilter<DoSomeWorkConsumer>(container));
-                    //    });
-                    //});
+                    //  Workable solution!!!
+                    e.Consumer(new ScopeConsumerFactory<DoSomeWorkConsumer>(scopeProvider), cfg => cfg.UseFilter(new InjectContextFilter<DoSomeWorkConsumer>()));
 
-                    //e.Consumer(new ScopeConsumerFactory<DoSomeWorkConsumer>(scopeProvider), cfg => cfg.UseFilter(new InjectContextFilter<DoSomeWorkConsumer>(container)));
-                    //e.Consumer(container.GetRequiredService<DoSomeWorkConsumer>, cfg => cfg.ConsumerMessage<DoSomeWork>(m => m.UseFilter(new InjectContextFilter<DoSomeWorkConsumer, DoSomeWork>(container))));
-                    e.Consumer(new ScopeConsumerFactory<DoSomeWorkConsumer>(scopeProvider), cfg => cfg.ConsumerMessage<DoSomeWork>(m => m.UseFilter(new InjectContextFilter<DoSomeWorkConsumer, DoSomeWork>(container))));
-
-                    //e.Consumer(container.GetRequiredService<DoSomeWorkConsumer>, y =>
-                    //{
-                    //    y.ConsumerMessage<DoSomeWork>(m => m.UseFilter(new InjectContextFilter<DoSomeWorkConsumer, DoSomeWork>(container)));
-                    //});
-
-                    //e.Consumer(() => container.GetRequiredService<DoSomeWorkConsumer>(), cfg => cfg.UseFilter(new InjectContextFilter<DoSomeWorkConsumer>(container)));
+                    //  Workable solution!!!
+                    //e.Consumer(new ScopeConsumerFactory<DoSomeWorkConsumer>(scopeProvider), cfg => cfg.ConsumerMessage<DoSomeWork>(m => m.UseFilter(new InjectContextFilter<DoSomeWorkConsumer, DoSomeWork>())));
 
                     //e.LoadFrom(container);
-
-                    e.PrefetchCount = 2;
                 });
 
                 x.UseSerilog();
@@ -81,7 +63,7 @@ namespace MassTransitScoping
 
             Log.Information("Receiver started...");
 
-            for (var i = 1; i <= 2; i++)
+            for (var i = 1; i <= 10; i++)
             {
                 var correlationId = NewId.NextGuid();
 
