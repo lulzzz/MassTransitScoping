@@ -1,4 +1,5 @@
 ﻿using MassTransit;
+using Serilog;
 using System;
 using System.Threading.Tasks;
 
@@ -19,6 +20,8 @@ namespace MassTransitScoping
         {
             if (_context == null)
                 throw new NullReferenceException(nameof(_context));
+
+            Log.Information($"CorrelationId: { _context.CorrelationId }");
 
             //  publish message to bus using _context here... 
 

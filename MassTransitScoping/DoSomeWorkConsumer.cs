@@ -1,4 +1,5 @@
 ﻿using MassTransit;
+using Serilog;
 using System;
 using System.Threading.Tasks;
 
@@ -10,6 +11,8 @@ namespace MassTransitScoping
 
         public DoSomeWorkConsumer(ScopedObject scoped)
         {
+            Log.Information($"Initialize DoSomeWorkConsumer consumer");
+
             _scoped = scoped ?? throw new ArgumentNullException(nameof(scoped));
         }
 
